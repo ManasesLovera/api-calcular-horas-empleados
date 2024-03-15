@@ -18,15 +18,15 @@ type WorkedHours = {
 let employees: Employee[] = [
     {
         id: 1,
-        cedula: '40213481142',
+        cedula: '123123123123',
         fullname: 'Manases Lovera',
-        pricePerHour: 230
+        pricePerHour: 1000
     }
 ];
 let workedHoursList: WorkedHours[] = [
     {
         employeeid: 1,
-        hours: 88
+        hours: 8
     }
 ];
 
@@ -75,13 +75,17 @@ app.get('/employee/:id/hours', (req:Request, res:Response) => {
             Message: 'Invalid value inserted'
         });
     }
-    const hours:WorkedHours|undefined = workedHoursList.find( (workedhour:WorkedHours) => {
+    const hours:WorkedHours[]|undefined = workedHoursList.filter( (workedhour:WorkedHours) => {
         if(workedhour.employeeid === id) {
             return workedhour;
         }
     })
     if(hours) {
-        return res.json(hours);
+        let totalHours:number = 0;
+        hours.forEach( (hour:WorkedHours) => {
+            totalHours += hour.hours;
+        });
+        return res.json({hours,totalHours});
     } else {
         return res.status(404).json({
             statusCode: 404,
@@ -187,17 +191,17 @@ app.post('/employee/:id/hours', (req:Request, res:Response) => {
         })
     }
 
-    const workedhours = workedHoursList.find(wh => wh.employeeid === id)
+    //const workedhours = workedHoursList.find(wh => wh.employeeid === id)
     const employee = employees.find(e => e.id === id)
 
-    if(workedhours) {
-        return res.status(400).json({
-            statusCode: 400,
-            statusValue: 'Bad Request',
-            Message: 'This employee already exists'
-        })
-    } 
-    else if (employee) {
+    // if(workedhours) {
+    //     return res.status(400).json({
+    //         statusCode: 400,
+    //         statusValue: 'Bad Request',
+    //         Message: 'This employee already exists'
+    //     })
+    // } 
+    if (employee) {
         const workedHoursObj = {
             employeeid: id,
             hours
