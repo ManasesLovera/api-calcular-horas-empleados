@@ -1,7 +1,10 @@
 import Express, {Request, Response} from 'express';
 const app = Express();
 
+//middleware
 app.use(Express.json());
+
+app.use('/', Express.static('public'));
 
 type Employee = {
     id: number,
