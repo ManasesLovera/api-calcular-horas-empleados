@@ -1,0 +1,53 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+h2 {
+    margin-top: 20px;
+    
+}
+main {
+    display:flex;
+    flex-direction: column;
+}
+h3 {
+    padding: 20px 0 10px 20%;
+    text-align: start;
+}
+table {
+    width: 700px;
+    margin: auto;
+    padding-top: 20px;
+}
+table thead th {
+    background-color: #ccc;
+}
+table tbody td {
+    background-color: #eee;
+}
+form {
+    margin-top: 30px;
+}
+span {
+    font-size: 14px;
+    margin: 10px;
+    height: 30px;
+    width: 130px;
+    border: 1px solid #a9a9a9;
+    border-radius: 5px;
+    padding: 8px 0 0 0;
+}
+.title {
+    font-size: 13px;
+    font-weight: bold;
+}
+button {
+    padding:5px;
+    cursor:pointer;
+}
+input {
+    text-align: left;
+    outline: none;
+    padding: 3px;
+}

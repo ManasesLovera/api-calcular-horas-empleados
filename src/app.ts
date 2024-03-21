@@ -38,6 +38,31 @@ app.get('/employee', (req:Request, res:Response) => {
     res.json(employees)
 })
 
+// (get) /allemployeeinfo -> manda info para el frontend
+app.get('/allemployeeinfo', (req:Request, res:Response) => {
+    
+    const allemployeeinfo = employees.map( (employee) => {
+        const hours:WorkedHours[]|undefined = workedHoursList.filter( (workedhour:WorkedHours) => {
+            if(workedhour.employeeid === employee.id) {
+                return workedhour;
+            }
+        })
+        let totalHours:number = 0;
+            hours.forEach( (hour:WorkedHours) => {
+                totalHours += hour.hours;
+            });
+        return {
+            id: employee.id,
+            fullname: employee.fullname,
+            govermentID: employee.cedula,
+            pricePerHour: employee.pricePerHour,
+            workedHours: totalHours,
+            salary: employee.pricePerHour*totalHours
+        }
+    })
+    res.json(allemployeeinfo)
+})
+
 // (get) /employee/:id -> obtener un empleado enviando el id
 app.get('/employee/:id', (req:Request, res:Response) => {
 
@@ -139,8 +164,15 @@ app.get('/employee/:id/salary', (req:Request, res:Response) => {
 
 // (post) /employee -> agrega un empleado nuevo
 app.post('/employee', (req:Request, res:Response) => {
-    const {cedula, fullname, pricePerHour} = req.body;
+    const {fullname, cedula, pricePerHour} = req.body;
     const id:number = employees[employees.length-1].id + 1;
+    if(!fullname || !cedula || !pricePerHour) {
+        return res.status(400).json({
+            status: 400,
+            statusText: 'Bad Request',
+            Message: 'Some or all values are missing'
+        })
+    }
 
     const userExist = employees.find(employee => {
         if(employee.fullname === fullname
@@ -174,7 +206,7 @@ app.post('/employee', (req:Request, res:Response) => {
     }
 
     const employeeJson: Employee = {
-        id, cedula, fullname, pricePerHour
+        id, cedula, fullname, pricePerHour:Number.parseInt(pricePerHour)
     }
     employees.push(employeeJson);
     return res.json(employeeJson);
@@ -194,16 +226,8 @@ app.post('/employee/:id/hours', (req:Request, res:Response) => {
         })
     }
 
-    //const workedhours = workedHoursList.find(wh => wh.employeeid === id)
     const employee = employees.find(e => e.id === id)
 
-    // if(workedhours) {
-    //     return res.status(400).json({
-    //         statusCode: 400,
-    //         statusValue: 'Bad Request',
-    //         Message: 'This employee already exists'
-    //     })
-    // } 
     if (employee) {
         const workedHoursObj = {
             employeeid: id,
@@ -265,7 +289,7 @@ app.put('/employee/:id', (req:Request, res:Response) => {
 
 // (delete) / employee
 // -> borra un empleado y todo el registro de las horas trabajadas
-app.delete('/employee/:id', (req, res) => {
+app.delete('/employee/:id', (req:Request, res:Response) => {
     const id:number = Number.parseInt(req.params.id)
     if(isNaN(id)){
         res.status(400).json({

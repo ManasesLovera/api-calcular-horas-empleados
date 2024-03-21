@@ -4,19 +4,77 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
     <title>API typescript/express</title>
 </head>
 <body>
     <header>
-        
+        <h2>API typescript/express</h2>
     </header>
 
     <main>
+        <h3>Employees</h3>
+        
+            <table>
+                <thead>
+                    <tr>
+                        <th class="title">ID</th>
+                        <th class="title">Fullname</th>
+                        <th class="title">Goverment ID</th>
+                        <th class="title">Price per hour</th>
+                        <th class="title">Worked hours</th>
+                        <th class="title">Salary</th>
+                        <th class="title">Options</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
 
+                </tbody>
+            </table>
+
+        <h3>Worked Hours</h3>
+        <table style="width:300px">
+            <thead>
+                <tr>
+                    <th class="title">ID</th>
+                    <th class="title">Hours</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="content">9</td>
+                    <td class="content">16</td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            
+            <form>
+                <h3>Add Employee:</h3><br><br>
+                <label>Fullname:   </label>
+                <input type="text" id="fullname"><br><br>
+                <label>Goverment ID:   </label>
+                <input type="text" id="cedula"><br><br>
+                <label>Price per hour:   </label>
+                <input type="text" id="pricePerHour"><br><br>
+                <button id="btnAgregar">Agregar</button>
+            </form>
+            <form>
+                <h3>Add worked hours</h3><br><br>
+                <label>Employee ID:   </label>
+                <input type="text" id="employeeid"><br><br>
+                <label>Worked hours:   </label>
+                <input type="text" id="hours"><br><br>
+                <button id="btnAgregarHours">Add hours</button>
+            </form>
+        </div>
+        
     </main>
 
     <footer>
 
     </footer>
+    <script src="main.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </body>
 </html>
